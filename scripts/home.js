@@ -3,9 +3,17 @@ const searchForm = document.querySelector("#search-form");
 const searchInput = document.querySelector(".input");
 const resultContainer = document.querySelector(".results-box");
 let currentHero = "";
+let favHeros = JSON.parse(localStorage.getItem("favHeros")) || [];
 
-heroCard.addEventListener("click",()=>{
-    console.log("card clicked");
+resultContainer.addEventListener("click",(e)=>{
+    let hero = e.target.closest("a").id;
+    if(hero!==""){
+        currentHero=hero;
+        localStorage.setItem("currentHero",JSON.stringify(currentHero));
+        console.log(hero);
+        console.log("card clicked");
+    }
+    
 })
 
 //form submit event handler
@@ -15,7 +23,7 @@ searchForm.addEventListener("submit",(e)=>{
     
 });
 
-
+//fetching hero list on every keyup event
 searchInput.addEventListener("keyup",async()=>{
     
     let searchValue = searchInput.value;
@@ -28,21 +36,23 @@ searchInput.addEventListener("keyup",async()=>{
     });
     let data = await response.json();
     let heroList = data.results;
-    console.log(heroList);
-    console.log(searchInput.value);
+    // console.log(heroList);
+    // console.log(searchInput.value);
     renderResults(heroList,searchValue);
 });
 
 
+// rendering the hero cards in result
 function renderResults(data,value){
     if(value!==searchInput.value){
         return;
     }
     resultContainer.innerHTML="";
     for(let ele of data){
-        var card = document.createElement("div");
+        var card = document.createElement("a");
         card.setAttribute("class","hero-card");
         card.setAttribute("id",ele.id);
+        card.setAttribute("href","heropage.html");
         card.innerHTML =`
         <div class="hero-name">
            ${ele.name}
