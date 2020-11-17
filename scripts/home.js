@@ -9,7 +9,7 @@ resultContainer.addEventListener("click",(e)=>{
     if(hero!==""){
         currentHero=hero;
         localStorage.setItem("currentHero",JSON.stringify(currentHero));
-        window.open("../heropage.html", "_self");
+        window.open("heropage.html", "_self");
         console.log(hero);
         console.log("card clicked");
     }
